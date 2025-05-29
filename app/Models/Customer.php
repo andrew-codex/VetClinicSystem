@@ -29,6 +29,10 @@ class Customer extends  Authenticatable
         return $this->hasMany(Appointment::class);
     }
 
+     public function medicalRecords() {
+        return $this->hasMany(MedicalRecords::class);
+    }
+
 
 
 public function canAccessPanel(Panel $panel): bool

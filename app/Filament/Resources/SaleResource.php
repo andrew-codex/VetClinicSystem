@@ -15,13 +15,18 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Set;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Support\Facades\Log;
-
+use Filament\Facades\Filament;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class SaleResource extends Resource
 {
+
+      public static function canCreate():bool{
+        return Filament::getCurrentPanel()->getId() == 'user';
+    }
     protected static ?string $model = Sale::class;
+    
 
        protected static ?string $navigationIcon = 'heroicon-o-shopping-cart';
 
@@ -77,13 +82,20 @@ TextInput::make('quantity')
                TextColumn::make('quantity')->label('Quantity'),
                 TextColumn::make('product.price')->label('Price')->money('PHP'),
                TextColumn::make('total')->label('Total')->money('PHP'),
-                TextColumn::make('created_at')->label('Sale Date')->dateTime('Y-m-d H:i:s'),
+                TextColumn::make('created_at')->label('Sale Date')->dateTime('Y-m-d H:i:s')
+                ->searchable( 'created_at', function (Builder $query, $search) {
+                    $query->whereDate('created_at', 'like', '%' . $search . '%');
+                })
+                ,
+               
+                
             ])
+            
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+            
                  Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([

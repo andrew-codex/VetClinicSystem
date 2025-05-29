@@ -22,5 +22,9 @@ class Vet extends Authenticatable
         return $this->hasMany(Pet::class);
     }
 
+      public function medicalRecords() {
+        return $this->hasMany(MedicalRecords::class);
+    }
+
    
 }

@@ -17,7 +17,7 @@
                 
 
         
-                <a href="#" class="hover:text-black">Profile</a>
+                <a href="{{ route('userProfile') }}" class="hover:text-black">Profile</a>
                 <a href="{{ route('userDashboard') }}" class="hover:text-black">Home</a>
                 <a href="{{ route('logout') }}" class="hover:text-black">Logout</a>
             </div>
@@ -60,8 +60,8 @@
                           <td class="px-4 py-4">{{ $appointment->appointment_date }}</td>
                           <td class="px-4 py-4">{{ $appointment->notes }}</td>
                             <td class="px-4 py-4">{{ $appointment->status }}</td>
-                     <td class="px-6 py-4 space-x-2">
-    @if($appointment->status !== 'Accepted') 
+   <td class="px-6 py-4 space-x-2">
+    @if($appointment->status === 'Pending')
         <a href="{{ route('editAppointment', $appointment->id) }}" class="text-blue-600 hover:underline">
             Edit
         </a>
@@ -72,10 +72,13 @@
                 Delete
             </button>
         </form>
+    @elseif($appointment->status === 'Canceled')
+        <span class="text-gray-400">Edit/Delete disabled (Vet canceled appointment)</span>
     @else
-        <span class="text-gray-400">Edit/Delete disabled (Status: Accepted)</span>
+        <span class="text-gray-400">Edit/Delete disabled (Status: {{ $appointment->status }})</span>
     @endif
 </td>
+
 
                       </tr>
                   @empty

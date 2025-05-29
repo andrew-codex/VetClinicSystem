@@ -23,9 +23,23 @@ class AppointmentResource extends Resource
 {
     protected static ?string $model = Appointment::class;
 
-    public static function canCreate (): bool{
-        return Filament::getCurrentPanel()->getId() =='customer';
+    public static function canCreate():bool{
+        return Filament::getCurrentPanel()->getId() =='web';
     }
+
+     public static function getEloquentQuery(): Builder
+    {
+        $query = parent::getEloquentQuery();
+
+     
+        if (auth()->guard('vet')->check()) {
+            return $query->where('vet_id', auth()->guard('vet')->id());
+        }
+
+        return $query;
+    }
+
+    
     protected static ?string $navigationGroup = 'Clinic Management';
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
@@ -42,6 +56,8 @@ class AppointmentResource extends Resource
     {
          
         return $table
+          
+
             ->columns([
                 Tables\Columns\TextColumn::make('status')->badge(),
 
@@ -68,32 +84,60 @@ class AppointmentResource extends Resource
 
             ])
             ->filters([
-                //
+                
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-Action::make('Accept')
-    ->color('success')
-    ->label('Accept')
+         
+
+   ->actions([
+   
+   
+
+    Action::make('Accept')
+        ->color('success')
+        ->label('Accept')
+      ->visible(fn ($record) => $record->status === 'Pending')
+
+        ->action(function ($record) {
+            logger('Accept clicked'); 
+            $record->update(['status' => 'Approved']);
+
+            Notification::make()
+                ->title('Appointment Accepted')
+                ->success()
+                ->send();
+        }),
+
+    Action::make('Decline')
+        ->color('danger')
+        ->label('Decline')
+
+           ->visible(fn ($record) => $record->status === 'Pending')
+        ->action(function ($record) {
+            logger('Decline clicked');
+            $record->update(['status' => 'Canceled']);
+
+            Notification::make()
+                ->title('Appointment Declined')
+                ->danger()
+                ->send();
+        }),
+
+        Action::make('Done')
+    ->color('primary')
+    ->label('Done')
+    ->visible(fn ($record) => $record->status === 'Approved') 
     ->action(function ($record) {
-        logger('Accept clicked'); 
-        $record->update(['status' => 'accepted']);
+        $record->update(['status' => 'Completed']); 
 
         Notification::make()
-            ->title('Appointment Accepted')
+            ->title('Appointment marked as done')
             ->success()
             ->send();
-
     }),
-    
+])
 
 
-Action::make('Decline')
-    ->color('danger')
-    ->label('Decline')
-    ->action(fn ($record) => $record->update(['status' => 'declined'])),
-
-            ])
+          
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
@@ -108,10 +152,7 @@ Action::make('Decline')
         ];
     }
 
-  public static function getNavigationBadge(): ?string
-{
-    return static::getModel()::count();
-}
+  
 
     public static function getPages(): array
     {

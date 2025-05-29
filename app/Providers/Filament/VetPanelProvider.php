@@ -23,6 +23,7 @@ use App\Filament\Resources\PetResource;
 use App\Filament\Resources\AppointmentResource;
 
 
+
 class VetPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
@@ -51,6 +52,7 @@ class VetPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Vet/Widgets'), for: 'App\\Filament\\Vet\\Widgets')
             ->widgets([
+               
                 // Widgets\AccountWidget::class,
                 // Widgets\FilamentInfoWidget::class,
             ])

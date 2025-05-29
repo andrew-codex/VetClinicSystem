@@ -27,4 +27,8 @@ class Appointment extends Model
     public function vet() {
         return $this->belongsTo(Vet::class);
     }
+
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
 }

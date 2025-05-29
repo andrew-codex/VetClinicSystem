@@ -18,7 +18,7 @@
                
 
         
-                <a href="#" class="hover:text-black">Profile</a>
+                <a href="{{ route('userProfile') }}" class="hover:text-black">Profile</a>
                 <a href="{{ route('userDashboard') }}" class="hover:text-black">Home</a>
                 <a href="{{ route('logout') }}" class="hover:text-black">Logout</a>
             </div>

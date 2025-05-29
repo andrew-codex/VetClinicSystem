@@ -19,6 +19,8 @@
         <div class="container mx-auto flex justify-between items-center">
             <h1 class="text-xl font-bold">Dashboard</h1>
             <div class="flex items-center space-x-6">
+
+               
              
                 <div class="relative dropdown">
                     <button class="relative">
@@ -48,8 +50,8 @@
                 </div>
 
               
-                <a href="#" class="hover:text-black">Profile</a>
-                <a href="{{ route('logout') }}" class="hover:text-black">Logout</a>
+                <a href="{{ route('userProfile') }}" class="hover:text-black">Profile</a>
+                <a href="{{ route('logout') }}" class="hover:text-black ">Logout</a>
             </div>
         </div>
     </nav>
@@ -82,9 +84,9 @@
                 </a>
 
               
-                <a href="#" class="p-4 bg-yellow-100 rounded shadow hover:bg-yellow-200 transition">
+                <a href="{{ route('medicalRecords') }}" class="p-4 bg-yellow-100 rounded shadow hover:bg-yellow-200 transition">
                     <h3 class="font-bold text-lg">Medical Records</h3>
-                    <p class="text-2xl"></p>
+                    <p class="text-2xl">{{ $medicalRecords->count() }}</p>
                 </a>
             </div>
         </div>

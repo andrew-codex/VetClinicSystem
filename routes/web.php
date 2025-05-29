@@ -6,6 +6,8 @@ use App\Http\Controllers\medRecordController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\userDashboardController;
 use App\Http\Controllers\PetController;
+use App\Http\Controllers\userProfileController;
+use App\Http\Controllers\medicalRecordsController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -38,9 +40,13 @@ Route::middleware(['auth:customer'])->group(function () {
     Route::post('/appointment/create', [appointmentController::class, 'create'])->name('appointment.create');
 Route::get('/appointments/{appointment}/edit', [AppointmentController::class, 'edit'])->name('editAppointment');
    Route::put('/appointments/{appointment}', [AppointmentController::class, 'update'])->name('appointment.update');
+Route::get('/userProfile', [userProfileController::class, 'index'])->name('userProfile');
+Route::put('/userProfiles/{id}/update', [UserProfileController::class, 'update'])->name('userProfile.update');
 
+
+   Route::get('/medicalRecords', [medicalRecordsController::class, 'index'])->name('medicalRecords');
     
-   Route::delete('/appointment/{id}', [appointmentController::class, 'destroy'])->name('appointment.destroy');
+Route::delete('/appointment/{id}', [appointmentController::class, 'destroy'])->name('appointment.destroy');
 });
 
 
