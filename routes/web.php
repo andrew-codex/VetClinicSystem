@@ -10,6 +10,7 @@ use App\Http\Controllers\userProfileController;
 use App\Http\Controllers\medicalRecordsController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Filament\Pages\POS;
 
 Route::get('', function () {
     return view('welcome');

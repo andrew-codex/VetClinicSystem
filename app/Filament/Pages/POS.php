@@ -78,7 +78,7 @@ class POS extends Page
                     'total' => $item['price'] * $item['quantity'],
                 ]);
 
-                // Add to receipt
+               
                 $receipt[] = [
                     'name' => $item['name'],
                     'quantity' => $item['quantity'],
@@ -130,6 +130,18 @@ public function clearCart()
 }
 
 
+public function printReceipt()
+{
+    
+    $receiptItems = $this->lastReceipt;
+    $total = collect($receiptItems)->sum('total');
+
+  
+    return view('filament.pages.receipt-print', [
+        'receiptItems' => $receiptItems,
+        'total' => $total,
+    ]);
+}
 
 
 

@@ -77,27 +77,93 @@
 
  
 
+
     </div>
 
-    @if (!empty($lastReceipt))
-    <div class="mt-6 p-4 border border-gray-300 rounded">
-        <h2 class="text-xl font-bold mb-4">Receipt</h2>
-        <ul class="space-y-2">
+    
+
+<div id="printable-receipt" style="display: none; padding: 20px; border: 1px solid #ccc; max-width: 400px; margin-top: 20px; font-family: Arial, sans-serif;">
+    <h2>Sales Receipt</h2>
+    <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr>
+                <th style="border-bottom: 1px solid #ccc; text-align: left;">Product</th>
+                <th style="border-bottom: 1px solid #ccc; text-align: left;">Qty</th>
+                <th style="border-bottom: 1px solid #ccc; text-align: left;">Price</th>
+                <th style="border-bottom: 1px solid #ccc; text-align: left;">Total</th>
+            </tr>
+        </thead>
+        <tbody>
             @foreach ($lastReceipt as $item)
-                <li class="flex justify-between">
-                    <div>
-                        {{ $item['quantity'] }} × {{ $item['name'] }}
-                    </div>
-                    <div>
-                        ₱{{ number_format($item['total'], 2) }}
-                    </div>
-                </li>
+            <tr>
+                <td>{{ $item['name'] }}</td>
+                <td>{{ $item['quantity'] }}</td>
+                <td>{{ number_format($item['price'], 2) }}</td>
+                <td>{{ number_format($item['total'], 2) }}</td>
+            </tr>
             @endforeach
-        </ul>
-        <div class="mt-4 font-bold text-right">
-            Total: ₱{{ number_format(collect($lastReceipt)->sum('total'), 2) }}
-        </div>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3" style="font-weight: bold;">Total</td>
+                <td style="font-weight: bold;">
+                    {{ number_format(collect($lastReceipt)->sum('total'), 2) }}
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+@if (!empty($lastReceipt))
+    <div id="receipt-printable" style="padding: 20px; max-width: 400px; border: 1px solid #ccc; margin-top: 20px;">
+        <h2>Sales Receipt</h2>
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th style="border: 1px solid #ddd; padding: 8px;">Product</th>
+                    <th style="border: 1px solid #ddd; padding: 8px;">Qty</th>
+                    <th style="border: 1px solid #ddd; padding: 8px;">Price</th>
+                    <th style="border: 1px solid #ddd; padding: 8px;">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($lastReceipt as $item)
+                <tr>
+                    <td style="border: 1px solid #ddd; padding: 8px;">{{ $item['name'] }}</td>
+                    <td style="border: 1px solid #ddd; padding: 8px;">{{ $item['quantity'] }}</td>
+                    <td style="border: 1px solid #ddd; padding: 8px;">{{ number_format($item['price'], 2) }}</td>
+                    <td style="border: 1px solid #ddd; padding: 8px;">{{ number_format($item['total'], 2) }}</td>
+                </tr>
+                @endforeach
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3" style="border: 1px solid #ddd; padding: 8px; font-weight: bold;">Total</td>
+                    <td style="border: 1px solid #ddd; padding: 8px; font-weight: bold;">
+                        {{ number_format(collect($lastReceipt)->sum('total'), 2) }}
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
     </div>
+
+    <button onclick="printReceipt()" style="margin-top: 10px; padding: 10px 20px;">
+        Print Receipt
+    </button>
+
+  
 @endif
 
 </x-filament::page>
+
+  <script>
+        function printReceipt() {
+            let receiptContent = document.getElementById('receipt-printable').innerHTML;
+            let originalContent = document.body.innerHTML;
+
+            document.body.innerHTML = receiptContent;
+            window.print();
+            document.body.innerHTML = originalContent;
+            location.reload(); // reload to restore event listeners and state
+        }
+    </script>
