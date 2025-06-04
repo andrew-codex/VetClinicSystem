@@ -41,11 +41,11 @@ return [
             'provider' => 'users',
         ],
 
-        'customer' => [ // Custom guard for customers
+        'customer' => [ 
             'driver' => 'session',
             'provider' => 'customers',
         ],
-        'vet' => [ // Custom guard for vets
+        'vet' => [ 
             'driver' => 'session',
             'provider' => 'vets',
         ],
@@ -106,14 +106,22 @@ return [
     |
     */
 
-    'passwords' => [
-        'users' => [
-            'provider' => 'users',
-            'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
-            'expire' => 60,
-            'throttle' => 60,
-        ],
+   'passwords' => [
+    'users' => [
+        'provider' => 'users',
+        'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
+        'expire' => 60,
+        'throttle' => 60,
     ],
+
+    'vets' => [ 
+        'provider' => 'vets',
+        'table' => 'password_reset_tokens',
+        'expire' => 60,
+        'throttle' => 60,
+    ],
+],
+
 
     /*
     |--------------------------------------------------------------------------

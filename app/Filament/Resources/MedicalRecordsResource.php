@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\MedicalRecordsResource\Pages;
 use App\Filament\Resources\MedicalRecordsResource\RelationManagers;
 use App\Models\MedicalRecords;
+use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -148,10 +149,18 @@ public static function mutateFormDataBeforeCreate(array $data): array
                 ]),
             ]);
     }
-  public static function getNavigationBadge(): ?string
+
+public static function getNavigationBadge(): ?string
 {
+    $vet = auth()->guard('vet')->user();
+
+    if ($vet) {
+        return static::getModel()::where('vet_id', $vet->id)->count();
+    }
+
     return static::getModel()::count();
 }
+
     public static function getRelations(): array
     {
         return [

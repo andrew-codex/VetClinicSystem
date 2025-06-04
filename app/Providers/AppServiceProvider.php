@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\ServiceProvider;
 use App\Providers\Filament\CustomersPanelProvider;
+   use Illuminate\Support\Facades\Mail;
+use Illuminate\Mail\Events\MessageSending;
 use App\Providers\Filament\AdminPanelProvider;
 use Filament\Facades\Filament; 
 use Filament\Navigation\NavigationBuilder as Navigation; 
@@ -29,7 +31,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-   
+
+
+Mail::listen(function (MessageSending $event) {
+    logger('Sending email: ' . $event->message->getSubject());
+});
+
     }
 
 

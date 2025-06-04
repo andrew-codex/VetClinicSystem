@@ -86,7 +86,7 @@
               
                 <a href="{{ route('medicalRecords') }}" class="p-4 bg-yellow-100 rounded shadow hover:bg-yellow-200 transition">
                     <h3 class="font-bold text-lg">Medical Records</h3>
-                    <p class="text-2xl">{{ $medicalRecords->count() }}</p>
+                    <p class="text-2xl">{{  $medicalRecords->count() }}</p>
                 </a>
             </div>
         </div>

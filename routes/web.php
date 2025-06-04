@@ -17,6 +17,8 @@ Route::get('', function () {
 })->name('home');
 
 
+
+
 Route::get('/userDashboard', [userDashboardController::class, 'index'])->middleware('auth:customer')->name('userDashboard');
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login.customer');

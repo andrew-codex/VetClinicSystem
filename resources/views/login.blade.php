@@ -31,10 +31,17 @@
                 <div class="mb-4">
                     <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
                     <input type="password" id="password" name="password" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-                    <div class="mt-1">
-          <input type="checkbox" id="showPassword" class="mr-1">
+                    <div class=" flex justify-between items-center">
+                        <div class="mt 1">
+                            <input type="checkbox" id="showPassword" class="mr-1">
           <label for="showPassword" class="text-sm text-gray-600">Show Password</label>
+                        </div>
+          
+
+          <a href="#" class="text-sm text-blue-600 hover:underline">Forgot password ?</a>
         </div>
+
+         
                 </div>
                 <div class="flex justify-between items-center">
                     <button type="submit" class="w-full px-6 py-2 bg-blue-600 text-white rounded-lg">Login</button>
@@ -44,6 +51,7 @@
             Don't have an account?
             <a href="{{ route('register.form') }}" class="text-blue-600 hover:underline">Register here</a>
         </p>
+        
     </div>
             </form>
         </div>

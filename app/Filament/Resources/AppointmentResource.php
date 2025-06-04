@@ -145,6 +145,19 @@ class AppointmentResource extends Resource
             ]);
     }
 
+    public static function getNavigationBadge(): ?string
+{
+    $vet = auth()->guard('vet')->user();
+
+    if ($vet) {
+        return static::getModel()::where('vet_id', $vet->id)->count();
+    }
+
+   
+    return static::getModel()::count();
+}
+
+
     public static function getRelations(): array
     {
         return [

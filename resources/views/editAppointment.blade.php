@@ -18,7 +18,7 @@
 
         
               
-                <a href="{{ route('petPage') }}" class="hover:text-black">List of Pet</a>
+                <a href="{{ route('appointment') }}" class="hover:text-black">Appointment</a>
                 <a href="{{ route('logout') }}" class="hover:text-black">Logout</a>
             </div>
         </div>

@@ -16,6 +16,8 @@ class userDashboardController extends Controller
 public function index()
 {
     $customerId = Auth::guard('customer')->id();
+   
+    $user = Auth::guard('customer')->user();
 
     $pets = Pet::where('customer_id', $customerId)->get();
    
@@ -23,7 +25,9 @@ public function index()
         $query->where('customer_id', $customerId);
     })->get();
 
-    $medicalRecords = Pet::with('medicalRecords')->where('customer_id', $customerId)->get();
+        $medicalRecords = MedicalRecords::whereHas('pet', function ($query) use ($user) {
+        $query->where('customer_id', $user->id);
+    })->get();
 
     return view('userDashboard', compact('pets', 'medicalRecords', 'appointments'));
 }
